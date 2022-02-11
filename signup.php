@@ -1,3 +1,34 @@
+<?php
+  $db = mysqli_connect('localhost', 'root', 'password', 'login');
+  $username = "";
+  $email = "";
+  if (isset($_POST['register']))
+  {
+  	$username = $_POST['username'];
+  	$email = $_POST['email'];
+  	$password = $_POST['password'];
+
+  	$sql1 = "SELECT * FROM users WHERE username='$username'";
+  	$sql2 = "SELECT * FROM users WHERE email='$email'";
+  	$res1 = mysqli_query($db, $sql1);
+  	$res2 = mysqli_query($db, $sql2);
+
+  	if (mysqli_num_rows($res1) > 0) 
+    {
+        header('Location:signup.php');
+  	}
+    else if(mysqli_num_rows($res2) > 0)
+    {
+        header('Location:signup.php');
+    }
+  	else
+    {
+        $query = "INSERT INTO users (username, email,password) VALUES ('$username', '$email', '$password')";
+        $results = mysqli_query($db, $query);
+        header('Location:index.php');
+  	}
+  }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
